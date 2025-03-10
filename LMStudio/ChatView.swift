@@ -1,53 +1,45 @@
 import SwiftUI
 
-// MARK: - ChatView
-
 struct ChatView: View {
     @State private var messages: [ChatMessage] = []
     @State private var inputText: String = ""
     @State private var isLoading: Bool = false
 
+    @State private var newMessage: String = ""
+
     var body: some View {
-        NavigationView {
-            VStack {
-                // Chat History
-                ScrollViewReader { scrollProxy in
-                    ScrollView {
-                        ForEach(messages) { message in
-                            MessageRow(message: message)
-                                .id(message.id)
-                        }
+        VStack(spacing: 10) {
+            ScrollViewReader { scrollProxy in
+                ScrollView {
+                    ForEach(messages) { message in
+                        MessageRow(message: message)
+                            .id(message.id)
                     }
-                    .onChange(of: messages.count) {
-                        if let lastID = messages.last?.id {
-                            withAnimation {
-                                scrollProxy.scrollTo(lastID, anchor: .bottom)
-                            }
+                }
+                .onChange(of: messages.count) {
+                    if let lastID = messages.last?.id {
+                        withAnimation {
+                            scrollProxy.scrollTo(lastID, anchor: .bottom)
                         }
                     }
                 }
-                
-                // Status Indicator
-                if isLoading {
-                    Text("AI is typing...")
-                        .foregroundColor(.gray)
-                }
-                
-                // Message Input Area
-                HStack {
-                    TextField("Type a message...", text: $inputText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Button("Send") {
-                        sendMessage()
-                    }
-                }
-                .padding()
             }
-            .navigationTitle("LM Studio Chat")
+
+            HStack {
+                    TextField("Type a message...", text: $inputText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(maxWidth: .infinity)
+
+                Button(action: sendMessage) {
+                    Image(systemName: "paperplane.fill")
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding()
         }
+        .navigationTitle("Chat")
     }
-    
-    // Sends a user message and triggers an API call
+
     func sendMessage() {
         guard !inputText.isEmpty else { return }
         let userMessage = ChatMessage(role: "user", content: inputText)
@@ -57,18 +49,19 @@ struct ChatView: View {
             await sendToAPI()
         }
     }
-    
-    // Communicate with the AI backend via URLSession
-    // Communicate with the AI backend via URLSession
-    func sendToAPI() async {
+        func sendToAPI() async {
         isLoading = true
         defer { isLoading = false }
-        
+        @AppStorage("apiURL") var baseAPIURL: String = "https://10.0.0.10:1234"
+        @AppStorage("selectedModel") var selectedModel: String = "phi-4"
+        @AppStorage("temperature") var temperature: Double = 0.8
+        @AppStorage("maxTokens") var maxTokens: Int = 512
+
         // Retrieve API settings from @AppStorage
-        let baseAPIURL = UserDefaults.standard.string(forKey: "apiURL") ?? "http://10.0.0.10:1234"
-        let selectedModel = UserDefaults.standard.string(forKey: "selectedModel") ?? "phi4"
-        let temperature = UserDefaults.standard.double(forKey: "temperature")
-        let maxTokens = UserDefaults.standard.integer(forKey: "maxTokens")
+        // let baseAPIURL = UserDefaults.standard.string(forKey: "apiURL") ?? "http://10.0.0.10:1234"
+        // let selectedModel = UserDefaults.standard.string(forKey: "selectedModel") ?? "phi4"
+        // let temperature = UserDefaults.standard.double(forKey: "temperature")
+        // let maxTokens = UserDefaults.standard.integer(forKey: "maxTokens")
         
         // Ensure the base API URL does not have a trailing slash before appending the endpoint
         let apiURL = baseAPIURL.trimmingCharacters(in: CharacterSet(charactersIn: "/")) + "/v1/chat/completions"
@@ -111,4 +104,5 @@ struct ChatView: View {
             print("API Error: \(error)")
         }
     }
+
 }

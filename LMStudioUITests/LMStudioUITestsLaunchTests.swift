@@ -1,13 +1,13 @@
 //
-//  LMStudioiOSUITestsLaunchTests.swift
-//  LMStudioiOSUITests
+//  LMStudioUITestsLaunchTests.swift
+//  LMStudioUITests
 //
 //  Created by Rich Sivak on 3/9/25.
 //
 
 import XCTest
 
-final class LMStudioiOSUITestsLaunchTests: XCTestCase {
+final class LMStudioUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

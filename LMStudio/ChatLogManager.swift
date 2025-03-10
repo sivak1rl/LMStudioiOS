@@ -1,6 +1,6 @@
 //
 //  ChatLogManager.swift
-//  LMStudioiOS
+//  LMStudio
 //
 //  Created by Rich Sivak on 3/10/25.
 //

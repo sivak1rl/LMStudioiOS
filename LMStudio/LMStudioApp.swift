@@ -1,6 +1,6 @@
 //
-//  LMStudioiOSApp.swift
-//  LMStudioiOS
+//  LMStudioApp.swift
+//  LMStudio
 //
 //  Created by Rich Sivak on 3/9/25.
 //

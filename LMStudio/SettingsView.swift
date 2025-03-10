@@ -11,50 +11,59 @@ struct SettingsView: View {
     @State private var errorMessage: String?
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("API Settings")) {
-                    TextField("API URL", text: $apiURL)
+        Form {
+            Section(header: Text("API Settings")) {
+                TextField("API URL", text: $apiURL)
+                    #if os(iOS)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
+                    #endif
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+
+            Section(header: HStack {
+                Text("Model Settings")
+                Spacer()
+                Button(action: loadModels) {
+                    Image(systemName: "arrow.clockwise")
+                }
+            }) {
+                if isLoading {
+                    ProgressView("Loading models...")
+                } else if let errorMessage = errorMessage {
+                    Text(errorMessage).foregroundColor(.red)
                 }
 
-                Section(header: HStack {
-                    Text("Model Settings")
-                    Spacer()
-                    Button(action: loadModels) {
-                        Image(systemName: "arrow.clockwise")
+                Picker("Model", selection: $selectedModel) {
+                    ForEach(availableModels, id: \.self) { model in
+                        Text(model).tag(model)
                     }
-                }) {
-                    if isLoading {
-                        ProgressView("Loading models...")
-                    } else if let errorMessage = errorMessage {
-                        Text(errorMessage).foregroundColor(.red)
-                    }
+                }
 
-                    Picker("Model", selection: $selectedModel) {
-                        ForEach(availableModels, id: \.self) { model in
-                            Text(model).tag(model)
-                        }
-                    }
-
-                    VStack {
-                        Slider(value: $temperature, in: 0.0...2.0, step: 0.05)
+                VStack {
+                    Slider(value: $temperature, in: 0.0...2.0, step: 0.05)
                         Text("Temperature: \(temperature, specifier: "%.2f")")
-                    }
+                }
 
-                    VStack {
-                        Slider(value: Binding<Double>(
-                            get: { Double(maxTokens) },
-                            set: { maxTokens = Int($0) }
-                        ), in: 16...8192, step: 16)
+                VStack {
+                    Slider(value: Binding<Double>(
+                        get: { Double(maxTokens) },
+                        set: { maxTokens = Int($0) }
+                    ), in: 32...8192, step: 32)
                         Text("Max Tokens: \(maxTokens)")
-                    }
                 }
             }
-            .navigationTitle("Settings")
-            .onAppear(perform: loadModels)
         }
+        .navigationTitle("Settings")
+        .onAppear(perform: loadModels)
+        #if os(iOS)
+        .gesture(
+            TapGesture()
+                .onEnded { _ in
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
+        )
+        #endif
     }
 
     func loadModels() {
@@ -71,7 +80,7 @@ struct SettingsView: View {
                 self.isLoading = false
 
                 if let error = error {
-                    self.errorMessage = "Error fetching models: \(error.localizedDescription)"
+                    self.errorMessage = "Error fetching models: $error.localizedDescription)"
                     return
                 }
 

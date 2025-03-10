@@ -1,13 +1,13 @@
 //
-//  LMStudioiOSUITests.swift
-//  LMStudioiOSUITests
+//  LMStudioUITests.swift
+//  LMStudioUITests
 //
 //  Created by Rich Sivak on 3/9/25.
 //
 
 import XCTest
 
-final class LMStudioiOSUITests: XCTestCase {
+final class LMStudioUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
