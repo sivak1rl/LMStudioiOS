@@ -1,24 +1,20 @@
-//
-//  ContentView.swift
-//  LMStudioiOS
-//
-//  Created by Rich Sivak on 3/9/25.
-//
-
 import SwiftUI
+
+// MARK: - Root ContentView with TabView
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            ChatView()
+                .tabItem {
+                    Label("Chat", systemImage: "message.fill")
+                }
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
-}
+

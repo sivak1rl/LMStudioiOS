@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+// MARK: - Main App Structure
+
 @main
-struct LMStudioiOSApp: App {
+struct LMStudioChatApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
