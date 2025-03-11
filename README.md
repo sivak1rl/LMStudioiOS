@@ -1,119 +1,108 @@
-# LMStudioiOS
+# LMStudio Chat App
 
-LMStudioiOS is an iOS application designed to facilitate seamless interaction with and configuration of **LM Studio**. This app offers a user-friendly interface for chatting with LM Studio and customizing its settings to suit your preferences.
-
-> *"An iOS app to chat with and configure settings for LM Studio."*  
-> citeturn0search0
+LMStudio is a SwiftUI-based chat application that allows users to create, manage, and participate in chat sessions. The app supports multiple chat threads and persists chat messages using a local storage mechanism.
 
 ## Features
-
-- **Chat Interface:** Engage in real-time conversations with LM Studio.
-- **Configuration Panel:** Easily adjust and personalize your studio settings.
-- **Swift-Powered:** Built entirely using Swift for optimal performance and integration.
-- **Cross-Platform Potential:** Explore building the app for macOS using Mac Catalyst.
+- **Multi-chat support**: Users can create and switch between multiple chat sessions.
+- **Local chat history**: Messages are saved and loaded automatically.
+- **Cross-platform UI**: Supports macOS and iOS with adaptive navigation views.
+- **Modern SwiftUI design**: Uses SwiftUI components like `NavigationSplitView`, `TabView`, and `Picker`.
 
 ## Requirements
+- macOS 12+ or iOS 15+
+- Xcode 14+
+- Swift 5+
 
-- **macOS Version:** macOS 11.0 (Big Sur) or later
-- **Xcode:** Version 12 or later
-- **iOS Deployment Target:** iOS 14.0 or later
+## Installation and Setup
+### Clone the Repository
+```sh
+ git clone <repository-url>
+ cd LMStudio
+```
 
-## Installation
+### Open in Xcode
+1. Launch **Xcode**.
+2. Select **File > Open** and navigate to the `LMStudio` folder.
+3. Open the project and wait for dependencies to resolve.
 
-1. **Clone the Repository:**
+### Build and Run
+1. Select the target device (iPhone, iPad, or Mac).
+2. Click **Run** (`⌘R`).
 
-   ```bash
-   git clone https://github.com/sivak1rl/LMStudioiOS.git
-   ```
-
+## Project Structure
+- **LMStudioApp.swift**: The main entry point of the app.
+- **ContentView.swift**: Handles navigation between chat and settings.
+- **ChatView.swift**: Displays chat messages and allows users to create/select conversations.
+- **ChatLogManager.swift**: Manages storage and retrieval of chat messages.
+- **SettingsView.swift**: Contains user-configurable settings.
 
-2. **Open the Project in Xcode:**
+## Settings Explained
 
-   ```bash
-   cd LMStudioiOS
-   open LMStudioiOS.xcodeproj
-   ```
-
+The Settings section in LMStudio allows you to configure the following:
+- API Settings
+- API URL: Specify the endpoint that the app will use to connect with the backend server. By default, it is set to https://10.0.0.10:1234.
+- Model Settings
+- Model Picker: Choose from a list of available models that the app can use. This list is loaded dynamically by pressing the refresh button (🔄).
+- Temperature: Adjust the creativity of the model’s responses. The value ranges from 0.0 (more deterministic) to 2.0 (more creative), with a default of 0.8.
+- Max Tokens: Set the maximum number of tokens (words or word pieces) the model can generate in a response. The slider allows you to choose a value between 32 and 8192, with a default value of 512.
 
-## Building and Running the Application
-
-### On iOS Simulator
-
-1. **Select the Target Device:**
-
-   In Xcode's toolbar, click on the device selector and choose an iOS simulator (e.g., iPhone 13).
-
-2. **Build and Run:**
-
-   - Press the **Run** button (▶️) in the toolbar or choose **Product > Run** from the menu.
-   - Xcode will build the project and launch it in the selected simulator.
-
-### On a Physical iOS Device
-
-1. **Connect Your Device:**
-
-   Plug your iOS device into your Mac using a USB cable.
-
-2. **Trust the Device:**
-
-   - On your iOS device, a prompt will appear asking you to trust the connected computer. Tap **Trust** and enter your device passcode if prompted.
-
-3. **Select Your Device in Xcode:**
-
-   - In Xcode, click on the device selector and choose your connected iOS device.
-
-4. **Enable Developer Mode on Your Device (iOS 16 and Later):**
-
-   - On your iOS device, navigate to **Settings > Privacy & Security**.
-   - Scroll down and enable **Developer Mode**.
-   - Restart your device if prompted.
-
-5. **Provisioning Profile:**
-
-   - Xcode should automatically manage the provisioning profile using your Apple ID.
-   - If prompted, sign in with your Apple ID in Xcode's preferences under the **Accounts** tab.
-
-6. **Build and Run:**
-
-   - Press the **Run** button (▶️) in the toolbar or choose **Product > Run** from the menu.
-   - Xcode will build the project and install it on your connected device.
-
-   *Note: A paid Apple Developer account is not required to run the app on your own device; however, the app will be valid for a limited time (usually 7 days) without a paid account.* citeturn0search7
-
-### Building for macOS Using Mac Catalyst
-
-With Mac Catalyst, you can run your iPad app on macOS with minimal changes.
-
-1. **Enable Mac Catalyst:**
-
-   - In Xcode, select the **LMStudioiOS** project in the Project Navigator.
-   - Select the **LMStudioiOS** target.
-   - Navigate to the **General** tab.
-   - Check the box labeled **Mac** under the **Deployment Info** section.
-
-2. **Configure macOS-Specific Settings:**
-
-   - Adjust any macOS-specific settings or features as needed.
-   - Ensure that the app's UI and functionality are optimized for macOS.
-
-3. **Select My Mac as the Run Destination:**
-
-   - In the device selector, choose **My Mac**.
-
-4. **Build and Run:**
-
-   - Press the **Run** button (▶️) or choose **Product > Run**.
-   - Xcode will build and launch the app on your Mac.
-
-   *Note: Some iOS features may not be available or may require modification to work on macOS.* citeturn0search2
+These settings let you customize the behavior of the chat AI, from its connection endpoint to the style and length of generated responses.
 
 ## Contributing
+Pull requests are welcome! Please ensure that your changes align with the SwiftUI design principles.
 
-Contributions are welcome! To contribute:
+## License
+This project is licensed under [Your License Here].
 
-1. **Fork the Repository:** Click the **Fork** button at the top right corner of the repository page.
-2. **Create a Feature Branch:** In your forked repository, create a new branch for your feature or bug fix.
-3. **Implement Your Changes:** Develop your feature or fix in your branch.
-4. **Submit a Pull Request:** Once your changes are ready, submit a pull request to the main repository for review.
 
-Please ensure your code adheres to the project's coding standards and includes appropriate tests.
+
+I’ve added a new section in the README that explains the settings in detail. Here is the updated version:
+
+LMStudio Chat App
+
+LMStudio is a SwiftUI-based chat application that allows users to create, manage, and participate in chat sessions. The app supports multiple chat threads and persists chat messages using a local storage mechanism.
+
+Features
+    •    Multi-chat support: Users can create and switch between multiple chat sessions.
+    •    Local chat history: Messages are saved and loaded automatically.
+    •    Cross-platform UI: Supports macOS and iOS with adaptive navigation views.
+    •    Modern SwiftUI design: Uses SwiftUI components like NavigationSplitView, TabView, and Picker.
+
+Requirements
+    •    macOS 12+ or iOS 15+
+    •    Xcode 14+
+    •    Swift 5+
+
+Installation and Setup
+
+Clone the Repository
+
+git clone <repository-url>
+cd LMStudio
+
+Open in Xcode
+    1.    Launch Xcode.
+    2.    Select File > Open and navigate to the LMStudio folder.
+    3.    Open the project and wait for dependencies to resolve.
+
+Build and Run
+    1.    Select the target device (iPhone, iPad, or Mac).
+    2.    Click Run (⌘R).
+
+Project Structure
+    •    LMStudioApp.swift: The main entry point of the app.
+    •    ContentView.swift: Handles navigation between chat and settings.
+    •    ChatView.swift: Displays chat messages and allows users to create/select conversations.
+    •    ChatLogManager.swift: Manages storage and retrieval of chat messages.
+    •    SettingsView.swift: Contains user-configurable settings for the app.
+
+
+Contributing
+
+Pull requests are welcome! Please ensure that your changes align with SwiftUI design principles.
+
+License
+
+This project is licensed under [Your License Here].
+
+Let me know if you’d like any further tweaks or additional sections! What do you think? 😎🚀 ￼
