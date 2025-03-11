@@ -1,9 +1,4 @@
 //
-//  ChatLogManager.swift
-//  LMStudio
-//
-//  Created by Rich Sivak on 3/10/25.
-//
 import SwiftUI
 
 // MARK: - Chat Log Manager
@@ -45,5 +40,57 @@ class ChatLogManager {
     func deleteChatLog(chatName: String) {
         let fileURL = logsDirectory.appendingPathComponent("\(chatName).json")
         try? fileManager.removeItem(at: fileURL)
+    }
+
+    func getChatFile(for chatID: String) -> URL {
+        return logsDirectory.appendingPathComponent("\(chatID).json")
+    }
+
+    func saveMessages(_ messages: [ChatMessage], for chatID: String) {
+        do {
+            let data = try JSONEncoder().encode(messages)
+            try data.write(to: getChatFile(for: chatID))
+        } catch {
+            print("Failed to save chat history: \(error.localizedDescription)")
+        }
+    }
+
+    func loadMessages(for chatID: String) -> [ChatMessage] {
+        let chatFile = getChatFile(for: chatID)
+        guard fileManager.fileExists(atPath: chatFile.path) else { return [] }
+        
+        do {
+            let data = try Data(contentsOf: chatFile)
+            return try JSONDecoder().decode([ChatMessage].self, from: data)
+        } catch {
+            print("Failed to load chat history: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+    func listChats() -> [String] {
+        do {
+            let files = try fileManager.contentsOfDirectory(at: logsDirectory, includingPropertiesForKeys: nil)
+            return files.map { $0.deletingPathExtension().lastPathComponent }
+        } catch {
+            print("Failed to list chat sessions: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+    func createChat(named name: String) {
+        let newChatFile = getChatFile(for: name)
+        if !fileManager.fileExists(atPath: newChatFile.path) {
+            saveMessages([], for: name) // Create an empty chat file
+        }
+    }
+
+    func deleteChat(named name: String) {
+        let chatFile = getChatFile(for: name)
+        do {
+            try fileManager.removeItem(at: chatFile)
+        } catch {
+            print("Failed to delete chat: \(error.localizedDescription)")
+        }
     }
 }
