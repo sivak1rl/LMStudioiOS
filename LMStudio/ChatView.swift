@@ -7,7 +7,8 @@ struct ChatView: View {
     @State private var selectedChatID: String = "default"
     @State private var chatList: [String] = []
     @State private var newChatName: String = ""
-    
+    @State private var editingMessage: ChatMessage? = nil
+
     var body: some View {
         return VStack(spacing: 10) {
             HStack {
@@ -42,13 +43,21 @@ struct ChatView: View {
             }
             
             ScrollViewReader { scrollProxy in
-                ScrollView {
-                    ForEach(messages) { message in
-                        MessageRow(message: message)
-                            .id(message.id)
-                    }
-                }
-            }
+                            ScrollView {
+                                ForEach(messages) { message in
+                                    HStack {
+                                        MessageRow(message: message)
+                                            .id(message.id)
+                                        
+                                        
+                                        Button("🗑️") {
+                                            deleteMessage(message)
+                                        }
+                                        .buttonStyle(BorderlessButtonStyle())
+                                    }
+                                }
+                            }
+                        }
             
             HStack {
                 TextField("Type a message...", text: $inputText)
@@ -82,6 +91,12 @@ struct ChatView: View {
                 await sendToAPI()
             }
         }
+        
+        func deleteMessage(_ message: ChatMessage) {
+            ChatLogManager.shared.deleteMessage(in: selectedChatID, messageID: message.id)
+            messages = ChatLogManager.shared.loadMessages(for: selectedChatID)
+        }
+
         
         func sendToAPI() async {
             isLoading = true

@@ -55,6 +55,12 @@ class ChatLogManager {
         }
     }
 
+    func deleteMessage(in chatID: String, messageID: UUID) {
+        var messages = loadMessages(for: chatID)
+        messages.removeAll { $0.id == messageID }
+        saveMessages(messages, for: chatID)
+    }
+    
     func loadMessages(for chatID: String) -> [ChatMessage] {
         let chatFile = getChatFile(for: chatID)
         guard fileManager.fileExists(atPath: chatFile.path) else { return [] }
